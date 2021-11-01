@@ -8,3 +8,7 @@ RUN apk update; \
 COPY demo.apache.conf /usr/local/apache2/conf/demo.apache.conf
 RUN echo "Include /usr/local/apache2/conf/demo.apache.conf" \
     >> /usr/local/apache2/conf/httpd.conf
+
+# RUN mkdir -p /var/www/html
+# RUN chmod -R 755 /var/www/html/
+# RUN chown -R www-data:www-data /var/www/html/
