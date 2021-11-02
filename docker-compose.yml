@@ -1,6 +1,7 @@
 version: "3.2"
 services:
   php:
+    container_name: limesurvey-php-fpm
     build: 
       context: './php/'
       args:
@@ -9,8 +10,8 @@ services:
       - backend
     volumes:
       - ${PROJECT_ROOT}/:/var/www/html/
-    container_name: php
   apache:
+    container_name: limesurvey-apache-webserver
     build:
       context: './apache/'
       args:
@@ -22,11 +23,11 @@ services:
       - frontend
       - backend
     ports:
-      - "800:80"
+      - "80:80"
     volumes:
       - ${PROJECT_ROOT}/:/var/www/html/
-    container_name: apache
   mysql:
+    container_name: limesurvey-mysql-database-
     image: mysql:${MYSQL_VERSION:-latest}
     restart: always
     ports:
