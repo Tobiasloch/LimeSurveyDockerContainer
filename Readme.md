@@ -17,6 +17,7 @@ To install and run this container follow these steps:
 1. clone this repository
 2. run ```install.sh``` to download a Limesurvey instance and setting it up
 3. run ```docker-compose up``` to start the limesurvey server
+4. after installation you can login via "http://www.example.com/limesurvey/admin". The default admin accounts username is "admin" and its password is "password".
 
 ## References
 
