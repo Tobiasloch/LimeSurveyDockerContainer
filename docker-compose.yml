@@ -6,6 +6,10 @@ services:
       context: './php/'
       args:
        PHP_VERSION: ${PHP_VERSION}
+       LIMESURVEY_ADMIN_USER_NAME: ${LIMESURVEY_ADMIN_USER_NAME}
+       LIMESURVEY_ADMIN_USER_PASSWORD: ${LIMESURVEY_ADMIN_USER_PASSWORD}
+       LIMESURVEY_ADMIN_FULL_NAME: ${LIMESURVEY_ADMIN_FULL_NAME}
+       LIMESURVEY_ADMIN_EMAIL: ${LIMESURVEY_ADMIN_EMAIL}
     networks:
       - backend
     volumes:
@@ -27,13 +31,12 @@ services:
     volumes:
       - ${PROJECT_ROOT}/:/var/www/html/
   mysql:
-    container_name: limesurvey-mysql-database-
     image: mysql:${MYSQL_VERSION:-latest}
     restart: always
     ports:
-      - "3306:3306"
+      - "${DB_PORT_IN}:${DB_PORT_OUT}"
     volumes:
-            - data:/var/lib/mysql
+            - ./database/:/var/lib/mysql/
     networks:
       - backend
     environment:
@@ -41,7 +44,8 @@ services:
       MYSQL_DATABASE: "${DB_NAME}"
       MYSQL_USER: "${DB_USERNAME}"
       MYSQL_PASSWORD: "${DB_PASSWORD}"
-    container_name: mysql
+      MYSQL_TCP_PORT: ${DB_PORT_OUT}
+    container_name: limesurvey-mysql-database
 networks:
   frontend:
   backend:
