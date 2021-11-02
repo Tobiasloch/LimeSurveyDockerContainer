@@ -73,9 +73,6 @@ sed -i -e "/'password' =>/ s/=> .*/=> '${DB_ROOT_PASSWORD}',/" $LIMESURVEY_FOLDE
 sed -i -e "/'urlFormat' =>/ s/=> .*/=> 'path',/" $LIMESURVEY_FOLDERNAME/application/config/config.php
 
 # installing mysql database
-# mkdir -p database
-# chown -R 0:0 database
-# chmod -R 755 database
 
 # docker-compose build
 # docker-compose up -d

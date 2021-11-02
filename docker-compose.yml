@@ -36,7 +36,7 @@ services:
     ports:
       - "${DB_PORT_IN}:${DB_PORT_OUT}"
     volumes:
-            - ./database/:/var/lib/mysql/
+      - data:/var/lib/mysql/
     networks:
       - backend
     environment:
