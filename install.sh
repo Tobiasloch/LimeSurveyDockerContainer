@@ -1,32 +1,40 @@
 #!/bin/bash
-
-URL=https://download.limesurvey.org/lts-releases/limesurvey3.27.23+211102.zip
-LIMESURVEY_FOLDERNAME=limesurvey
+# terminate on error
+# set -e
 
 # include variables from .env
 export $(cat .env | grep "^[^#;]" | xargs)
+
+VERSION=3.27.23+211102
+LIMESURVEY_FOLDERNAME=`basename ${PROJECT_ROOT}`
 
 download_limesurvey() {
     rm -rf $LIMESURVEY_FOLDERNAME
     echo "downloading limesurvey from $URL..."
     wget -O $LIMESURVEY_FOLDERNAME.zip $URL
+    if [ ! -f $LIMESURVEY_FOLDERNAME.zip ] 
+    then
+        echo "ERROR: The following url does not contain a limesurvey version:
+        $URL"
+        exit
+    fi
+
     unzip -o $LIMESURVEY_FOLDERNAME.zip
+    mv ./LimeSurvey* ./$LIMESURVEY_FOLDERNAME
 }
 
-usage="$(basename $0) [-h|-help] [URL]
+usage="$(basename $0) [-v|-h|-t VERSION]
 
 where: 
-    URL         the url where the limesurvey instance is downloaded from. If none specified, then version 3.27.23-lts is downloaded.
-    -h,-help    show this help text"
+    -t [VERSION]    the git version tag of limesurvey to be downloaded. Default: $VERSION
+    -h,-help        show this help text"
 
-while getopts ':hs:' option; do
+while getopts 'ht:' option; do
   case "$option" in
-    h|help) echo -e "$usage"
+    h) echo -e "$usage"
        exit
        ;;
-    :) printf "missing argument for -%s\n" "$OPTARG" >&2
-       echo -e "$usage" >&2
-       exit 1
+    t) VERSION=${OPTARG}
        ;;
    \?) printf "illegal option: -%s\n" "$OPTARG" >&2
        echo -e "$usage" >&2
@@ -35,7 +43,9 @@ while getopts ':hs:' option; do
   esac
 done
 
-
+URL=https://github.com/LimeSurvey/LimeSurvey/archive/${VERSION}.zip
+echo $URL
+echo $VERSION
 # script has to run as root
 if [ `whoami` != root ]; then
     echo Please run this script as root or using sudo
