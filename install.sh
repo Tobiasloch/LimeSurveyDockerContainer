@@ -19,7 +19,7 @@ download_limesurvey() {
         exit
     fi
 
-    unzip -o $LIMESURVEY_FOLDERNAME.zip
+    unzip -q -o $LIMESURVEY_FOLDERNAME.zip
     mv ./LimeSurvey* ./$LIMESURVEY_FOLDERNAME
 }
 
@@ -44,8 +44,7 @@ while getopts 'ht:' option; do
 done
 
 URL=https://github.com/LimeSurvey/LimeSurvey/archive/${VERSION}.zip
-echo $URL
-echo $VERSION
+
 # script has to run as root
 if [ `whoami` != root ]; then
     echo Please run this script as root or using sudo
